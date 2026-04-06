@@ -2,8 +2,6 @@
 
 Ollama FloatMan 是一个基于 PyQt5 开发的界面工具，用来监控和管理 Ollama 运行的本地模型的状态。
 
->程序存在问题，打包成可执行文件有问题，建议直接运行 `main.py` 文件。
-
 <center>
 <img src="src/icon.svg" alt="Ollama FloatMan 图标" width="100" height="100" >
 </center>

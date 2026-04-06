@@ -402,10 +402,7 @@ class OllamaManagerApp(QWidget):
             self.drag_position = event.globalPos() - self.frameGeometry().topLeft()
             event.accept()
     
-    def mouseMoveEvent(self, event):
-        if self.dragging:
-            self.move(event.globalPos() - self.drag_position)
-            event.accept()
+
     
     def mouseReleaseEvent(self, event):
         self.dragging = False
