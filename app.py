@@ -59,7 +59,7 @@ class OllamaManagerApp(QWidget):
         title_bar = QHBoxLayout()
         title_bar.setContentsMargins(10, 5, 10, 5)
         
-        title_label = QLabel('Ollama Manager')
+        title_label = QLabel('Ollama FloatMan')
         title_label.setStyleSheet('font-family: "Microsoft YaHei"; font-size: 14px; font-weight: bold; color: white;')
         
         self.topmost_btn = QPushButton('置顶')
@@ -319,7 +319,6 @@ class OllamaManagerApp(QWidget):
     def get_selected_model(self):
         selected_items = self.model_list.selectedItems()
         if not selected_items:
-            QMessageBox.warning(self, '提示', '请选择一个模型')
             return None
         # 从UserRole中获取原始模型名称
         model_name = selected_items[0].data(Qt.UserRole)
@@ -330,71 +329,40 @@ class OllamaManagerApp(QWidget):
         if model_name:
             success = self.ollama_manager.run_model(model_name)
             if success:
-                QMessageBox.information(self, '成功', f'模型 {model_name} 正在运行')
                 self.refresh_models()
             else:
-                QMessageBox.warning(self, '失败', f'无法运行模型 {model_name}')
+                pass
     
     def run_model_background(self):
         model_name = self.get_selected_model()
         if model_name:
             success = self.ollama_manager.run_model_background(model_name)
             if success:
-                QMessageBox.information(self, '成功', f'模型 {model_name} 已在后台运行')
                 self.refresh_models()
             else:
-                QMessageBox.warning(self, '失败', f'无法在后台运行模型 {model_name}')
+                pass
     
     def stop_model(self):
         model_name = self.get_selected_model()
         if model_name:
             success = self.ollama_manager.stop_model(model_name)
             if success:
-                QMessageBox.information(self, '成功', f'模型 {model_name} 已停止')
                 self.refresh_models()
             else:
-                QMessageBox.warning(self, '失败', f'无法停止模型 {model_name}')
+                pass
     
     def remove_model(self):
         model_name = self.get_selected_model()
         if model_name:
-            reply = QMessageBox.question(self, '确认', f'确定要移除模型 {model_name} 吗？',
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:
-                success = self.ollama_manager.remove_model(model_name)
-                if success:
-                    QMessageBox.information(self, '成功', f'模型 {model_name} 已移除')
-                    self.refresh_models()
-                else:
-                    QMessageBox.warning(self, '失败', f'无法移除模型 {model_name}')
+            success = self.ollama_manager.remove_model(model_name)
+            if success:
+                self.refresh_models()
+            else:
+                pass
     
     def set_model_alias(self):
-        model_name = self.get_selected_model()
-        if model_name:
-            # 获取当前别名（如果有）
-            current_alias = self.ollama_manager.get_alias(model_name)
-            default_alias = current_alias if current_alias else ''
-            
-            # 弹出输入对话框
-            alias, ok = QInputDialog.getText(self, '设置别名', f'为模型 {model_name} 设置别名：', text=default_alias)
-            
-            if ok:
-                if alias.strip():
-                    # 设置别名
-                    success = self.ollama_manager.set_alias(model_name, alias.strip())
-                    if success:
-                        QMessageBox.information(self, '成功', f'模型 {model_name} 的别名已设置为 {alias.strip()}')
-                        self.refresh_models()
-                    else:
-                        QMessageBox.warning(self, '失败', '无法设置别名')
-                else:
-                    # 清空别名
-                    success = self.ollama_manager.remove_alias(model_name)
-                    if success:
-                        QMessageBox.information(self, '成功', f'模型 {model_name} 的别名已移除')
-                        self.refresh_models()
-                    else:
-                        QMessageBox.warning(self, '失败', '无法移除别名')
+        # 禁用设置别名功能，因为需要用户输入
+        pass
         
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
